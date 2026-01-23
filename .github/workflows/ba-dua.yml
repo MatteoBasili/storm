@@ -36,7 +36,7 @@ jobs:
         run: |
           git clone https://github.com/saeg/ba-dua
           cd ba-dua
-          git checkout 2c609a4
+          git checkout d2401f0
           mvn clean install
           cd ..
 
