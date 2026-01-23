@@ -486,6 +486,12 @@
                                         -javaagent:${project.build.directory}/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar
                                         -Doutput.file=${project.build.directory}/coverage.ser
                                     </argLine>
+
+                                    <forkCount>1</forkCount>
+                                    <reuseForks>false</reuseForks>
+                                    <includes>
+                                        <include>**/*Test.java</include>
+                                    </includes>
                                 </configuration>
                             </execution>
                         </executions>
