@@ -444,7 +444,6 @@
                             <argLine>
                                 -javaagent:target/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar
                                 -Doutput.file=target/coverage.ser
-                                @{argLine}
                             </argLine>
                         </configuration>
                     </plugin>
@@ -452,7 +451,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.6.0</version>
+                        <version>1.5.0</version>
                         <executions>
                             <!-- Produce Badua report -->
                             <execution>
