@@ -22,6 +22,21 @@ jobs:
           distribution: temurin
           java-version: 17
 
+      # Imposta MAVEN_OPTS per aprire moduli necessari a JUnit e Ba-dua
+      - name: Set JVM options for tests
+        run: |
+          echo "MAVEN_OPTS=\
+          --add-opens=java.base/java.lang=ALL-UNNAMED \
+          --add-opens=java.base/java.util=ALL-UNNAMED \
+          --add-opens=java.base/java.io=ALL-UNNAMED \
+          --add-opens=java.base/java.nio=ALL-UNNAMED \
+          --add-opens=java.base/java.net=ALL-UNNAMED \
+          --add-opens=java.base/java.reflect=ALL-UNNAMED \
+          --add-opens=java.base/sun.nio.ch=ALL-UNNAMED \
+          --add-opens=java.base/sun.security.util=ALL-UNNAMED \
+          --add-opens=java.management/sun.management=ALL-UNNAMED \
+          --add-opens=jdk.unsupported/sun.misc=ALL-UNNAMED" >> $GITHUB_ENV
+
       # Cache Maven
       - name: Cache Maven packages
         uses: actions/cache@v4
