@@ -169,7 +169,8 @@
         <bouncycastle.version>1.82</bouncycastle.version>
 
         <!-- JUnit -->
-        <junit5.version>5.10.2</junit5.version>
+        <junit.version>4.13.1</junit.version>
+        <junit5.version>5.9.1</junit5.version>
     </properties>
 
     <modules>
@@ -194,6 +195,11 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -955,6 +961,11 @@
                 <version>${junit5.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.kafka</groupId>
