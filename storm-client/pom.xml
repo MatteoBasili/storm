@@ -31,11 +31,6 @@
     <name>Storm Client</name>
     <description>The client side (including worker) of Storm implementations.</description>
 
-    <properties>
-        <ba-dua.version>0.6.0</ba-dua.version>
-        <pitest.version>1.16.1</pitest.version>
-    </properties>
-
     <dependencies>
         <!-- logging -->
 
@@ -426,27 +421,36 @@
         <!--  Ba-dua  -->
         <profile>
             <id>badua-coverage</id>
+
+            <properties>
+                <!-- Versione per l’agente -->
+                <ba-dua.version>0.6.0</ba-dua.version>
+            </properties>
+
             <dependencies>
                 <dependency>
                     <groupId>br.usp.each.saeg</groupId>
-                    <artifactId>ba-dua-agent-rt</artifactId>
-                    <version>0.6.0</version>
+                    <artifactId>ba-dua-cli</artifactId>
+                    <version>${ba-dua.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>br.usp.each.saeg</groupId>
-                    <artifactId>ba-dua-cli</artifactId>
-                    <version>0.6.0</version>
+                    <artifactId>ba-dua-agent-rt</artifactId>
+                    <version>${ba-dua.version}</version>
                 </dependency>
             </dependencies>
+
             <build>
                 <plugins>
-                    <!-- Copia dell'agente -->
+                    <!-- Copia dell’agente in target/dependency -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.10</version>
+                        <version>3.3.0</version>
                         <executions>
                             <execution>
+                                <id>copy-badua-agent</id>
+                                <phase>process-test-classes</phase>
                                 <goals>
                                     <goal>copy</goal>
                                 </goals>
@@ -456,36 +460,49 @@
                                             <groupId>br.usp.each.saeg</groupId>
                                             <artifactId>ba-dua-agent-rt</artifactId>
                                             <classifier>all</classifier>
-                                            <version>0.6.0</version>
+                                            <version>${ba-dua.version}</version>
                                         </artifactItem>
                                     </artifactItems>
+                                    <outputDirectory>${project.build.directory}/dependency</outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
                     </plugin>
-                    <!-- Esegui i test -->
+
+                    <!-- Esecuzione dei test con Surefire -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <argLine>
-                                -javaagent:target/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar
-                                -Doutput.file=target/coverage.ser
-                            </argLine>
-                        </configuration>
+                        <version>3.0.0-M5</version>
+                        <executions>
+                            <execution>
+                                <id>run-tests</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <configuration>
+                                    <argLine>
+                                        -javaagent:${project.build.directory}/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar
+                                        -Doutput.file=${project.build.directory}/coverage.ser
+                                    </argLine>
+                                </configuration>
+                            </execution>
+                        </executions>
                     </plugin>
-                    <!-- Produce report -->
+
+                    <!-- Generazione report -->
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.5.0</version>
+                        <version>1.6.0</version>
                         <executions>
-                            <!-- Produce Badua report -->
                             <execution>
+                                <id>generate-badua-report</id>
+                                <phase>test</phase>
                                 <goals>
                                     <goal>java</goal>
                                 </goals>
-                                <phase>test</phase>
                                 <configuration>
                                     <mainClass>br.usp.each.saeg.badua.cli.Report</mainClass>
                                     <arguments>
