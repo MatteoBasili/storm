@@ -396,7 +396,7 @@
             <id>badua-coverage</id>
 
             <properties>
-                <ba-dua.version>0.7.0</ba-dua.version>
+                <ba-dua.version>0.8.0</ba-dua.version>
             </properties>
 
             <dependencies>
