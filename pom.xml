@@ -170,7 +170,8 @@
 
         <!-- JUnit -->
         <junit.version>4.13.2</junit.version>
-        <junit5.version>5.7.0</junit5.version>
+        <junit5.version>5.10.2</junit5.version>
+        <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
     </properties>
 
     <modules>
@@ -1330,7 +1331,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surefire.version}</version>
+                    <version>${maven-surefire-plugin.version}</version>
                     <configuration>
                         <redirectTestOutputToFile>true</redirectTestOutputToFile>
                         <excludedGroups>IntegrationTest | ${java.unit.test.exclude.groups}</excludedGroups>
@@ -1346,7 +1347,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>${surefire.version}</version>
+                    <version>${maven-surefire-plugin.version}</version>
                     <configuration>
                         <redirectTestOutputToFile>true</redirectTestOutputToFile>
                         <includes>
@@ -1673,7 +1674,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>3.5.4</version>
+                <version>3.2.5</version>
                 <configuration>
                     <reportsDirectories>
                         <file>${project.build.directory}/test-reports</file>
