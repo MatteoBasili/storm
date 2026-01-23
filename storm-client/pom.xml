@@ -32,7 +32,7 @@
     <description>The client side (including worker) of Storm implementations.</description>
 
     <properties>
-        <ba-dua.version>0.6.0</ba-dua.version>
+        <ba-dua.version>0.7.0</ba-dua.version>
         <pitest.version>1.16.1</pitest.version>
     </properties>
 
@@ -403,12 +403,12 @@
                 <dependency>
                     <groupId>br.usp.each.saeg</groupId>
                     <artifactId>ba-dua-agent-rt</artifactId>
-                    <version>0.6.0</version>
+                    <version>0.7.0</version>
                 </dependency>
                 <dependency>
                     <groupId>br.usp.each.saeg</groupId>
                     <artifactId>ba-dua-cli</artifactId>
-                    <version>0.6.0</version>
+                    <version>0.7.0</version>
                 </dependency>
             </dependencies>
             <build>
@@ -429,7 +429,7 @@
                                             <groupId>br.usp.each.saeg</groupId>
                                             <artifactId>ba-dua-agent-rt</artifactId>
                                             <classifier>all</classifier>
-                                            <version>0.6.0</version>
+                                            <version>0.7.0</version>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
@@ -440,7 +440,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.0.0-M5</version>
                         <configuration>
                             <argLine>
                                 -javaagent:target/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar
