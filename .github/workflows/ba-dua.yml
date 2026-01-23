@@ -1,0 +1,98 @@
+name: Ba-dua
+
+on:
+  push:
+    branches: [ testing-exam ]
+
+jobs:
+  build:
+    name: Build, Test and Analyze
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout del codice
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Setup Java 8
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 8.0.372
+
+      # Cache Maven
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # Clone e build del repository di Ba-dua
+      - name: Clone and build ba-dua repository
+        run: |
+          git clone https://github.com/saeg/ba-dua
+          cd ba-dua
+          git checkout d2401f0
+          mvn clean install
+          cd ..
+
+      # Build + Test + Ba-dua
+      - name: Build and analyze
+        run: mvn -B clean verify -Pskip-bash-tests,badua-coverage -Dmaven.test.failure.ignore=true
+        
+      # Installa xmllint e xmlstarlet  
+      - name: Install XML tools
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils xmlstarlet  
+        
+      # Formatta il report e riducilo alla classe BufferedChannel        
+#      - name: Filter Ba-dua report for BufferedChannel
+#        run: |
+#          cd bookkeeper-server
+#
+#          input_file="badua.xml"
+#          modified_file="badua_pretty.xml"
+#          buffered_channel_class="org/apache/bookkeeper/bookie/BufferedChannel"
+#
+#          xmllint --format target/$input_file > target/$modified_file
+#          cp target/$modified_file target/badua_BufferedChannel.xml
+#
+#          xmlstarlet ed -L -d \
+#            "//class[not(contains(@name, '$buffered_channel_class'))]" \
+#            target/badua_BufferedChannel.xml  
+#            
+#      # Carica l'artifact per BufferedChannel      
+#      - name: Upload BafferedChannel report
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: Ba-dua_BufferedChannel_Report
+#          path: bookkeeper-server/target/badua_BufferedChannel.xml
+#          if-no-files-found: error
+#          
+#      # Formatta il report e riducilo alla classe WriteCache
+#      - name: Filter Ba-dua report for WriteCache
+#        run: |
+#          cd bookkeeper-server
+#
+#          input_file="badua.xml"
+#          modified_file="badua_pretty.xml"
+#          write_cache_class="org/apache/bookkeeper/bookie/storage/ldb/WriteCache"
+#
+#          xmllint --format target/$input_file > target/$modified_file
+#          cp target/$modified_file target/badua_WriteCache.xml
+#
+#          xmlstarlet ed -L -d \
+#            "//class[not(contains(@name, '$write_cache_class'))]" \
+#            target/badua_WriteCache.xml
+#       
+#      # Carica l'artifact per WriteCache        
+#      - name: Upload WriteCache report
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: Ba-dua_WriteCache_Report
+#          path: bookkeeper-server/target/badua_WriteCache.xml
+#          if-no-files-found: error
+      
