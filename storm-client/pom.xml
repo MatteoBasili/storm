@@ -444,7 +444,7 @@
                             <argLine>
                                 -javaagent:target/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar
                                 -Doutput.file=target/coverage.ser
-                                ${argLine}
+                                @{argLine}
                             </argLine>
                         </configuration>
                     </plugin>
