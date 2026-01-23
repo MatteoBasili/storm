@@ -413,7 +413,6 @@
             <id>badua-coverage</id>
 
             <properties>
-                <!-- Versione per l’agente -->
                 <ba-dua.version>0.6.0</ba-dua.version>
             </properties>
 
@@ -432,15 +431,13 @@
 
             <build>
                 <plugins>
-                    <!-- Copia dell’agente in target/dependency -->
+                    <!-- Copia dell’agente -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-dependency-plugin</artifactId>
-                        <version>3.3.0</version>
+                        <version>2.10</version>
                         <executions>
                             <execution>
-                                <id>copy-badua-agent</id>
-                                <phase>process-test-classes</phase>
                                 <goals>
                                     <goal>copy</goal>
                                 </goals>
@@ -453,47 +450,30 @@
                                             <version>${ba-dua.version}</version>
                                         </artifactItem>
                                     </artifactItems>
-                                    <outputDirectory>${project.build.directory}/dependency</outputDirectory>
                                 </configuration>
                             </execution>
                         </executions>
                     </plugin>
 
-                    <!-- Esecuzione dei test con Surefire -->
+                    <!-- Esegui i test -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>run-tests</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <argLine>
-                                        -javaagent:${project.build.directory}/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar
-                                        -Doutput.file=${project.build.directory}/coverage.ser
-                                    </argLine>
-
-                                    <forkCount>1</forkCount>
-                                    <reuseForks>false</reuseForks>
-                                    <includes>
-                                        <include>**/*Test.java</include>
-                                    </includes>
-                                </configuration>
-                            </execution>
-                        </executions>
+                        <configuration>
+                            <argLine>
+                                -javaagent:target/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar
+                                -Doutput.file=target/coverage.ser
+                            </argLine>
+                        </configuration>
                     </plugin>
 
-                    <!-- Generazione report -->
+                    <!-- Produce report -->
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.6.0</version>
+                        <version>1.5.0</version>
                         <executions>
                             <execution>
-                                <id>generate-badua-report</id>
                                 <phase>test</phase>
                                 <goals>
                                     <goal>java</goal>
