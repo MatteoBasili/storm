@@ -121,7 +121,7 @@ public class ObjectReaderGetStringsTest {
      */
     @ParameterizedTest
     @MethodSource("testCases")
-    @Timeout(value = 5, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
+    @Timeout(value = 5)
     void testGetStrings(Object input,
                         List<String> expectedOutput,
                         Class<? extends Exception> expectedException) {
