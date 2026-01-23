@@ -437,7 +437,10 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
+                        <configuration combine.self="merge">
+                            <includes>
+                                <include>**/*Test.java</include>
+                            </includes>
                             <argLine>
                                 -javaagent:target/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar
                                 -Doutput.file=target/coverage.ser
