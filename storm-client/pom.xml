@@ -31,6 +31,11 @@
     <name>Storm Client</name>
     <description>The client side (including worker) of Storm implementations.</description>
 
+    <properties>
+        <ba-dua.version>0.6.0</ba-dua.version>
+        <pitest.version>1.16.1</pitest.version>
+    </properties>
+
     <dependencies>
         <!-- logging -->
 
@@ -276,6 +281,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+            </plugin>
         </plugins>
     </build>
     <profiles>
@@ -340,5 +351,133 @@
                 </plugins>
             </build>
         </profile>
+
+        <!--  Jacoco  -->
+        <profile>
+            <id>jacoco-coverage</id>
+            <build>
+                <plugins>
+                    <!-- Esegui i test di unità -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <!-- Serve a Jacoco -->
+                            <argLine>@{argLine}</argLine>
+                        </configuration>
+                    </plugin>
+                    <!-- Produce report Jacoco -->
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.8.8</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>report</id>
+                                <phase>test</phase>
+                                <configuration>
+                                    <includes>
+                                        <include>org/apache/storm/utils/ObjectReader.class</include>
+                                        <include>org/apache/storm/utils/ConfigUtils.class</include>
+                                    </includes>
+                                </configuration>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!--  Ba-dua  -->
+        <profile>
+            <id>badua-coverage</id>
+            <dependencies>
+                <dependency>
+                    <groupId>br.usp.each.saeg</groupId>
+                    <artifactId>ba-dua-agent-rt</artifactId>
+                    <version>0.6.0</version>
+                </dependency>
+                <dependency>
+                    <groupId>br.usp.each.saeg</groupId>
+                    <artifactId>ba-dua-cli</artifactId>
+                    <version>0.6.0</version>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <!-- Copia dell'agente -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.10</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>br.usp.each.saeg</groupId>
+                                            <artifactId>ba-dua-agent-rt</artifactId>
+                                            <classifier>all</classifier>
+                                            <version>0.6.0</version>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- Esegui i test -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <argLine>
+                                -javaagent:target/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar
+                                -Doutput.file=target/coverage.ser
+                            </argLine>
+                        </configuration>
+                    </plugin>
+                    <!-- Produce report -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.5.0</version>
+                        <executions>
+                            <!-- Produce Badua report -->
+                            <execution>
+                                <goals>
+                                    <goal>java</goal>
+                                </goals>
+                                <phase>test</phase>
+                                <configuration>
+                                    <mainClass>br.usp.each.saeg.badua.cli.Report</mainClass>
+                                    <arguments>
+                                        <argument>-input</argument>
+                                        <argument>${project.build.directory}/coverage.ser</argument>
+                                        <argument>-classes</argument>
+                                        <argument>${project.build.outputDirectory}</argument>
+                                        <argument>-show-classes</argument>
+                                        <argument>-show-methods</argument>
+                                        <argument>-xml</argument>
+                                        <argument>${project.build.directory}/badua.xml</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 </project>

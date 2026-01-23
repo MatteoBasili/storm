@@ -42,57 +42,57 @@ jobs:
 
       # Build + Test + Ba-dua
       - name: Build and analyze
-        run: mvn -B clean verify -Pskip-bash-tests,badua-coverage -Dmaven.test.failure.ignore=true
+        run: mvn -B clean verify -Pbadua-coverage -Dmaven.test.failure.ignore=true
         
       # Installa xmllint e xmlstarlet  
       - name: Install XML tools
         run: sudo apt-get update && sudo apt-get install -y libxml2-utils xmlstarlet  
         
-      # Formatta il report e riducilo alla classe BufferedChannel        
-#      - name: Filter Ba-dua report for BufferedChannel
+      # Formatta il report e riducilo alla classe ObjectReader
+      - name: Filter Ba-dua report for ObjectReader
+        run: |
+          cd storm-client
+
+          input_file="badua.xml"
+          modified_file="badua_pretty.xml"
+          object_reader_class="org/apache/storm/utils/ObjectReader"
+
+          xmllint --format target/$input_file > target/$modified_file
+          cp target/$modified_file target/badua_ObjectReader.xml
+
+          xmlstarlet ed -L -d \
+            "//class[not(contains(@name, '$object_reader_class'))]" \
+            target/badua_ObjectReader.xml  
+
+      # Carica l'artifact per ObjectReader
+      - name: Upload ObjectReader report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ba-dua_ObjectReader_Report
+          path: storm-client/target/badua_ObjectReader.xml
+          if-no-files-found: error
+
+#      # Formatta il report e riducilo alla classe ConfigUtils
+#      - name: Filter Ba-dua report for ConfigUtils
 #        run: |
-#          cd bookkeeper-server
+#          cd storm-client
 #
 #          input_file="badua.xml"
 #          modified_file="badua_pretty.xml"
-#          buffered_channel_class="org/apache/bookkeeper/bookie/BufferedChannel"
+#          config_utils_class="org/apache/storm/utils/ConfigUtils"
 #
 #          xmllint --format target/$input_file > target/$modified_file
-#          cp target/$modified_file target/badua_BufferedChannel.xml
+#          cp target/$modified_file target/badua_ConfigUtils.xml
 #
 #          xmlstarlet ed -L -d \
-#            "//class[not(contains(@name, '$buffered_channel_class'))]" \
-#            target/badua_BufferedChannel.xml  
-#            
-#      # Carica l'artifact per BufferedChannel      
-#      - name: Upload BafferedChannel report
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: Ba-dua_BufferedChannel_Report
-#          path: bookkeeper-server/target/badua_BufferedChannel.xml
-#          if-no-files-found: error
-#          
-#      # Formatta il report e riducilo alla classe WriteCache
-#      - name: Filter Ba-dua report for WriteCache
-#        run: |
-#          cd bookkeeper-server
-#
-#          input_file="badua.xml"
-#          modified_file="badua_pretty.xml"
-#          write_cache_class="org/apache/bookkeeper/bookie/storage/ldb/WriteCache"
-#
-#          xmllint --format target/$input_file > target/$modified_file
-#          cp target/$modified_file target/badua_WriteCache.xml
-#
-#          xmlstarlet ed -L -d \
-#            "//class[not(contains(@name, '$write_cache_class'))]" \
-#            target/badua_WriteCache.xml
+#            "//class[not(contains(@name, '$config_utils_class'))]" \
+#            target/badua_ConfigUtils.xml
 #       
-#      # Carica l'artifact per WriteCache        
-#      - name: Upload WriteCache report
+#      # Carica l'artifact per ConfigUtils
+#      - name: Upload ConfigUtils report
 #        uses: actions/upload-artifact@v4
 #        with:
-#          name: Ba-dua_WriteCache_Report
-#          path: bookkeeper-server/target/badua_WriteCache.xml
+#          name: Ba-dua_ConfigUtils_Report
+#          path: storm-client/target/badua_ConfigUtils.xml
 #          if-no-files-found: error
       
