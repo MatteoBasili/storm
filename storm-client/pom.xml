@@ -32,7 +32,7 @@
     <description>The client side (including worker) of Storm implementations.</description>
 
     <properties>
-        <ba-dua.version>0.7.0</ba-dua.version>
+        <ba-dua.version>0.6.0</ba-dua.version>
         <pitest.version>1.16.1</pitest.version>
     </properties>
 
@@ -141,7 +141,34 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
+            <version>5.9.1</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.9.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit</groupId>
+            <artifactId>junit-bom</artifactId>
+            <version>5.9.1</version>
+            <type>pom</type>
+            <scope>import</scope>
         </dependency>
     </dependencies>
 
@@ -403,12 +430,12 @@
                 <dependency>
                     <groupId>br.usp.each.saeg</groupId>
                     <artifactId>ba-dua-agent-rt</artifactId>
-                    <version>0.7.0</version>
+                    <version>0.6.0</version>
                 </dependency>
                 <dependency>
                     <groupId>br.usp.each.saeg</groupId>
                     <artifactId>ba-dua-cli</artifactId>
-                    <version>0.7.0</version>
+                    <version>0.6.0</version>
                 </dependency>
             </dependencies>
             <build>
@@ -429,7 +456,7 @@
                                             <groupId>br.usp.each.saeg</groupId>
                                             <artifactId>ba-dua-agent-rt</artifactId>
                                             <classifier>all</classifier>
-                                            <version>0.7.0</version>
+                                            <version>0.6.0</version>
                                         </artifactItem>
                                     </artifactItems>
                                 </configuration>
