@@ -486,7 +486,7 @@
             <id>pit-mutation</id>
 
             <properties>
-                <pitest.version>1.21.1</pitest.version>
+                <pitest.version>1.6.6</pitest.version>
             </properties>
 
             <dependencies>
@@ -528,6 +528,7 @@
                             <mutators> <!-- aggiungere qui solo se si desiderano mutatori specifici -->
                                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                                 <mutator>NEGATE_CONDITIONALS</mutator>
+								<mutator>RETURN_VALS</mutator>
                                 <mutator>EMPTY_RETURNS</mutator>
                                 <mutator>FALSE_RETURNS</mutator>
                                 <mutator>TRUE_RETURNS</mutator>
