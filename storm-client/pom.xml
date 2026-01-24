@@ -486,7 +486,7 @@
             <id>pit-mutation</id>
 
             <properties>
-                <pitest.version>1.5.1</pitest.version>
+                <pitest.version>1.14.0</pitest.version>
             </properties>
 
             <dependencies>
@@ -495,11 +495,6 @@
                     <artifactId>pitest-maven</artifactId>
                     <version>${pitest.version}</version>
                     <type>maven-plugin</type>
-                </dependency>
-                <dependency>
-                    <groupId>org.pitest</groupId>
-                    <artifactId>pitest-junit5-plugin</artifactId>
-                    <version>0.12</version>
                 </dependency>
             </dependencies>
 
