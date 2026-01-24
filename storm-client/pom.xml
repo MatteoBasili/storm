@@ -486,7 +486,7 @@
             <id>pit-mutation</id>
 
             <properties>
-                <pitest.version>1.16.1</pitest.version>
+                <pitest.version>1.21.1</pitest.version>
             </properties>
 
             <dependencies>
