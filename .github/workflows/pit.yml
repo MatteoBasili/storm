@@ -15,12 +15,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Setup Java 8
+      # Setup Java 18
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 8.0.372
+          java-version: 18
 
       # Cache Maven
       - name: Cache Maven packages
@@ -33,12 +33,12 @@ jobs:
 
       # Build + Test + Pit
       - name: Build and analyze
-        run: mvn -B clean verify -Pskip-bash-tests,pit-mutation
+        run: mvn -B clean verify -Ppit-mutation
       
       # Carica l'artifact      
-#      - name: Upload report
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: Pit_Report
-#          path: bookkeeper-server/target/pit-reports
-#          if-no-files-found: error
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Pit_Report
+          path: storm-client/target/pit-reports
+          if-no-files-found: error

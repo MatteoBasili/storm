@@ -481,5 +481,90 @@
             </build>
         </profile>
 
+        <!--  Pit  -->
+        <profile>
+            <id>pit-mutation</id>
+
+            <properties>
+                <pitest.version>1.16.1</pitest.version>
+            </properties>
+
+            <dependencies>
+                <dependency>
+                    <groupId>org.pitest</groupId>
+                    <artifactId>pitest-maven</artifactId>
+                    <version>${pitest.version}</version>
+                    <type>maven-plugin</type>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-maven</artifactId>
+                        <version>${pitest.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>mutationCoverage</goal>
+                                </goals>
+                                <phase>test</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <threads>4</threads>
+                            <targetClasses>
+                                <param>org.apache.storm.utils.ObjectReader</param>
+                                <param>org.apache.storm.utils.ConfigUtils</param>
+                            </targetClasses>
+                            <targetTests>
+                                <param>org.apache.storm.utils.ObjectReaderGetStringsTest</param>
+                                <!-- <param>org.apache.bookkeeper.bookie.BufferedChannelReadTest</param> -->
+                                <!-- <param>org.apache.bookkeeper.bookie.BufferedChannelWriteTest</param> -->
+                                <!-- <param>org.apache.bookkeeper.bookie.storage.ldb.WriteCacheConstructorTest</param> -->
+                                <!-- <param>org.apache.bookkeeper.bookie.storage.ldb.WriteCachePutTest</param> -->
+                            </targetTests>
+                            <timeoutConstant>10000</timeoutConstant>
+                            <mutators> <!-- aggiungere qui solo se si desiderano mutatori specifici -->
+                                <mutator>CONDITIONALS_BOUNDARY</mutator>
+                                <mutator>NEGATE_CONDITIONALS</mutator>
+                                <mutator>EMPTY_RETURNS</mutator>
+                                <mutator>FALSE_RETURNS</mutator>
+                                <mutator>TRUE_RETURNS</mutator>
+                                <mutator>NULL_RETURNS</mutator>
+                            </mutators>
+                            <avoidCallsTo>
+                                <avoidCallsTo>java.util.logging</avoidCallsTo>
+                                <avoidCallsTo>org.apache.log4j</avoidCallsTo>
+                                <avoidCallsTo>org.slf4j</avoidCallsTo>
+                                <avoidCallsTo>org.apache.commons.logging</avoidCallsTo>
+                            </avoidCallsTo>
+                            <excludedMethods>
+                                <!-- ObjectReader -->
+                                <excludedMethod>getString</excludedMethod>
+                                <excludedMethod>getInt</excludedMethod>
+                                <excludedMethod>getLong</excludedMethod>
+                                <excludedMethod>getDouble</excludedMethod>
+                                <excludedMethod>getBoolean</excludedMethod>
+                                <!-- ConfigUtils -->
+                                <!-- <excludedMethod>get</excludedMethod> -->
+                                <!-- <excludedMethod>hasEntry</excludedMethod> -->
+                                <!-- <excludedMethod>getLastEntry</excludedMethod> -->
+                                <!-- <excludedMethod>deleteLedger</excludedMethod> -->
+                                <!-- <excludedMethod>forEach</excludedMethod> -->
+                                <!-- <excludedMethod>size</excludedMethod> -->
+                                <!-- <excludedMethod>count</excludedMethod> -->
+                                <!-- <excludedMethod>isEmpty</excludedMethod> -->
+                                <!-- <excludedMethod>align64</excludedMethod> -->
+                                <!-- <excludedMethod>alignToPowerOfTwo</excludedMethod> -->
+                                <!-- <excludedMethod>align64</excludedMethod> -->
+                            </excludedMethods>
+                            <verbose>false</verbose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 </project>
