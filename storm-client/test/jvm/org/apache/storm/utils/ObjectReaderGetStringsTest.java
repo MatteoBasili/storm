@@ -65,7 +65,7 @@ public class ObjectReaderGetStringsTest {
         });
     }
 
-    @Test(timeout = 5000) // 5 secondi come in JUnit 5
+    @Test(timeout = 5000)
     public void testGetStrings() {
 
         if (expectedException != null) {
