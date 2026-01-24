@@ -512,8 +512,7 @@
                                 <param>org.apache.storm.utils.ConfigUtils</param>
                             </targetClasses>
                             <targetTests>
-                                <!-- <param>org.apache.storm.utils.ObjectReaderGetStringsTest</param> -->
-                                <param>org.apache.storm.utils.ObjectReaderGetStringsJUnit5Test</param>
+                                <param>org.apache.storm.utils.ObjectReaderGetStringsTest</param>
                                 <!-- <param>org.apache.bookkeeper.bookie.BufferedChannelReadTest</param> -->
                                 <!-- <param>org.apache.bookkeeper.bookie.BufferedChannelWriteTest</param> -->
                                 <!-- <param>org.apache.bookkeeper.bookie.storage.ldb.WriteCacheConstructorTest</param> -->
@@ -523,7 +522,6 @@
                             <mutators> <!-- aggiungere qui solo se si desiderano mutatori specifici -->
                                 <mutator>CONDITIONALS_BOUNDARY</mutator>
                                 <mutator>NEGATE_CONDITIONALS</mutator>
-								<!-- <mutator>RETURN_VALS</mutator> -->
                                 <mutator>EMPTY_RETURNS</mutator>
                                 <mutator>FALSE_RETURNS</mutator>
                                 <mutator>TRUE_RETURNS</mutator>
