@@ -15,12 +15,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Setup Java 19
+      # Setup Java 17
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 19
+          java-version: 17
 
       # Cache Maven
       - name: Cache Maven packages
