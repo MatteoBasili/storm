@@ -72,27 +72,27 @@ jobs:
           path: storm-client/target/badua_ObjectReader.xml
           if-no-files-found: error
 
-#      # Formatta il report e riducilo alla classe ConfigUtils
-#      - name: Filter Ba-dua report for ConfigUtils
-#        run: |
-#          cd storm-client
-#
-#          input_file="badua.xml"
-#          modified_file="badua_pretty.xml"
-#          config_utils_class="org/apache/storm/utils/ConfigUtils"
-#
-#          xmllint --format target/$input_file > target/$modified_file
-#          cp target/$modified_file target/badua_ConfigUtils.xml
-#
-#          xmlstarlet ed -L -d \
-#            "//class[not(contains(@name, '$config_utils_class'))]" \
-#            target/badua_ConfigUtils.xml
-#       
-#      # Carica l'artifact per ConfigUtils
-#      - name: Upload ConfigUtils report
-#        uses: actions/upload-artifact@v4
-#        with:
-#          name: Ba-dua_ConfigUtils_Report
-#          path: storm-client/target/badua_ConfigUtils.xml
-#          if-no-files-found: error
+      # Formatta il report e riducilo alla classe ConfigUtils
+      - name: Filter Ba-dua report for ConfigUtils
+        run: |
+          cd storm-client
+
+          input_file="badua.xml"
+          modified_file="badua_pretty.xml"
+          config_utils_class="org/apache/storm/utils/ConfigUtils"
+
+          xmllint --format target/$input_file > target/$modified_file
+          cp target/$modified_file target/badua_ConfigUtils.xml
+
+          xmlstarlet ed -L -d \
+            "//class[not(contains(@name, '$config_utils_class'))]" \
+            target/badua_ConfigUtils.xml
+
+      # Carica l'artifact per ConfigUtils
+      - name: Upload ConfigUtils report
+        uses: actions/upload-artifact@v4
+        with:
+          name: Ba-dua_ConfigUtils_Report
+          path: storm-client/target/badua_ConfigUtils.xml
+          if-no-files-found: error
       

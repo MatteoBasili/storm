@@ -114,11 +114,6 @@ public class ObjectReaderGetStringsTest {
         );
     }
 
-    /**
-     * Test parametrizzato del metodo getStrings.
-     * Per ogni input viene verificato che la lista restituita
-     * corrisponda all'output atteso.
-     */
     @ParameterizedTest
     @MethodSource("testCases")
     @Timeout(value = 5, threadMode = Timeout.ThreadMode.SEPARATE_THREAD)
@@ -134,11 +129,6 @@ public class ObjectReaderGetStringsTest {
 
     }
 
-    // ============================ METODI DI SUPPORTO ============================ //
-
-    /**
-     * Verifica che getStrings lanci l'eccezione prevista.
-     */
     private void assertGetStringsFails(Object input,
                                        Class<? extends Exception> expectedException) {
 
@@ -150,9 +140,6 @@ public class ObjectReaderGetStringsTest {
         );
     }
 
-    /**
-     * Verifica che getStrings restituisca il risultato atteso.
-     */
     private void assertGetStringsSucceeds(Object input,
                                           List<String> expectedOutput) {
 
