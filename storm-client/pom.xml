@@ -513,10 +513,7 @@
                             </targetClasses>
                             <targetTests>
                                 <param>org.apache.storm.utils.ObjectReaderGetStringsTest</param>
-                                <!-- <param>org.apache.bookkeeper.bookie.BufferedChannelReadTest</param> -->
-                                <!-- <param>org.apache.bookkeeper.bookie.BufferedChannelWriteTest</param> -->
-                                <!-- <param>org.apache.bookkeeper.bookie.storage.ldb.WriteCacheConstructorTest</param> -->
-                                <!-- <param>org.apache.bookkeeper.bookie.storage.ldb.WriteCachePutTest</param> -->
+                                <param>org.apache.storm.utils.ConfigUtilsGetValueAsListTest</param>
                             </targetTests>
                             <timeoutConstant>10000</timeoutConstant>
                             <mutators> <!-- aggiungere qui solo se si desiderano mutatori specifici -->
@@ -526,6 +523,8 @@
                                 <mutator>FALSE_RETURNS</mutator>
                                 <mutator>TRUE_RETURNS</mutator>
                                 <mutator>NULL_RETURNS</mutator>
+                                <mutator>VOID_METHOD_CALLS</mutator>
+                                <mutator>NON_VOID_METHOD_CALLS</mutator>
                             </mutators>
                             <avoidCallsTo>
                                 <avoidCallsTo>java.util.logging</avoidCallsTo>
@@ -533,26 +532,12 @@
                                 <avoidCallsTo>org.slf4j</avoidCallsTo>
                                 <avoidCallsTo>org.apache.commons.logging</avoidCallsTo>
                             </avoidCallsTo>
-                            <excludedMethods>
+                            <targetMethods>
                                 <!-- ObjectReader -->
-                                <excludedMethod>getString</excludedMethod>
-                                <excludedMethod>getInt</excludedMethod>
-                                <excludedMethod>getLong</excludedMethod>
-                                <excludedMethod>getDouble</excludedMethod>
-                                <excludedMethod>getBoolean</excludedMethod>
+                                <param>getStrings</param>
                                 <!-- ConfigUtils -->
-                                <!-- <excludedMethod>get</excludedMethod> -->
-                                <!-- <excludedMethod>hasEntry</excludedMethod> -->
-                                <!-- <excludedMethod>getLastEntry</excludedMethod> -->
-                                <!-- <excludedMethod>deleteLedger</excludedMethod> -->
-                                <!-- <excludedMethod>forEach</excludedMethod> -->
-                                <!-- <excludedMethod>size</excludedMethod> -->
-                                <!-- <excludedMethod>count</excludedMethod> -->
-                                <!-- <excludedMethod>isEmpty</excludedMethod> -->
-                                <!-- <excludedMethod>align64</excludedMethod> -->
-                                <!-- <excludedMethod>alignToPowerOfTwo</excludedMethod> -->
-                                <!-- <excludedMethod>align64</excludedMethod> -->
-                            </excludedMethods>
+                                <param>getValueAsList</param>
+                            </targetMethods>
                             <verbose>false</verbose>
                         </configuration>
                     </plugin>
